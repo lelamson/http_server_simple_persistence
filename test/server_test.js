@@ -21,12 +21,24 @@ describe('http server running', function() {
 
   it('should listen to POST request at /magic', function(done) {
     chai.request('localhost:5000')
-      .post('/magic/missle')
-      .send({magic: 'magic missle'})
+      .post('/magic/missile')
+      .send({magic: 'magic missile'})
+      .end(function(err, res) {
+        expect(err).to.eql(null);
+        expect(res.status).to.eql(201);
+        expect(res.body.magic).to.eql('Nice casting magic missile');
+        done();
+      });
+  });
+
+  it('should listen for PUT request at /magic', function(done) {
+    chai.request('localhost:5000')
+      .put('/magic/missile')
+      .send({magic: 'magic missile flare'})
       .end(function(err, res) {
         expect(err).to.eql(null);
         expect(res.status).to.eql(202);
-        expect(res.body.magic).to.eql('Nice casting magic missle');
+        expect(res.body.magic).to.eql('Recasting magic missile flare');
         done();
       });
   });

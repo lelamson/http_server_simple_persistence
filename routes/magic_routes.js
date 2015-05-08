@@ -14,13 +14,17 @@ module.exports = function(router) {
     fs.writeFile('./dbjson/' + req.params.spell + '.json', JSON.stringify(req.body), function(err) {
       if (err) throw err;
     });
-    res.status(202).json({magic: 'Nice casting ' + req.body.magic});
-
+    res.status(201).json({magic: 'Nice casting ' + req.body.magic});
   });
 
   router.put('/magic/:spell', function(req, res) {
+    fs.writeFile('./dbjson/' + req.params.spell + '.json', JSON.stringify(req.body), function(err) {
+      if (err) throw err;
+    });
     res.status(202).json({magic: 'Recasting ' + req.body.magic});
   });
+
+
 
   router.get('*', function(req, res) {
     res.status(404).json({magic: 'This page is in a black hole'});
