@@ -24,7 +24,19 @@ module.exports = function(router) {
     res.status(202).json({magic: 'Recasting ' + req.body.magic});
   });
 
-
+  router.delete('/magic/:spell', function(req, res) {
+    fs.readdir('./dbjson/', function(err, files) {
+      files.forEach(function(item) {
+        if(item === req.params.spell + '.json') {
+          fs.unlink('./dbjson/' + req.params.spell + '.json', function() {
+            console.log('DELETED');
+          });
+          return res.status(200).send('200');
+        }
+        return res.status(404).send('404');
+      });
+    });
+  });
 
   router.get('*', function(req, res) {
     res.status(404).json({magic: 'This page is in a black hole'});
