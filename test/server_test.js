@@ -43,28 +43,6 @@ describe('http server running', function() {
       });
   });
 
-  describe('should listen to DELETE request', function(){
-    it('no file to delete', function(done) {
-      chai.request('localhost:5000')
-        .del('/magic/nofile')
-        .end(function(err, res) {
-          expect(err).to.eql(null);
-          expect(res.status).to.eql(404);
-          done();
-        });
-    });
-
-    it('should delete file', function(done) {
-      chai.request('localhost:5000')
-        .del('/magic/missile')
-        .end(function(err, res) {
-          expect(err).to.eql(null);
-          expect(res.status).to.eql(200);
-          done();
-        });
-    });
-  });
-
   it('should be a 404 page', function(done) {
     chai.request('localhost:5000')
       .get('/')
@@ -75,5 +53,45 @@ describe('http server running', function() {
         done();
       });
   });
-
 });
+
+describe('should listen to PATCH request', function(){
+  it('should update file', function(done) {
+    chai.request('localhost:5000')
+      .patch('/magic/missile')
+      .send({bonus: 'double cast', color: 'red', magic: 'Magic missle fireball'})
+      .end(function(err, res) {
+        expect(err).to.eql(null);
+        expect(res.status).to.eql(200);
+        expect(res.text).to.eql('Patch successful');
+        done();
+      });
+  });
+});
+
+describe('should listen to DELETE request', function(){
+  it('no file to delete', function(done) {
+    chai.request('localhost:5000')
+      .del('/magic/nofile')
+      .end(function(err, res) {
+        expect(err).to.eql(null);
+        expect(res.status).to.eql(404);
+        done();
+      });
+  });
+
+  it('should delete file', function(done) {
+    chai.request('localhost:5000')
+      .del('/magic/missile')
+      .end(function(err, res) {
+        expect(err).to.eql(null);
+        expect(res.status).to.eql(200);
+        expect(res.text).to.eql('Exterminated');
+        done();
+      });
+  });
+});
+
+
+
+
